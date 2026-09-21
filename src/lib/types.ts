@@ -21,6 +21,7 @@ export type AttemptResult = {
   correct_count?: number;
   review_due_at?: string;
   review_due_days?: number;
+  new_achievements?: Array<Pick<Achievement, "id" | "name" | "description" | "xp_reward">>;
 };
 
 export type LearningData = {
