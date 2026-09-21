@@ -9,6 +9,7 @@ export type LessonProgress = Database["public"]["Tables"]["lesson_progress"]["Ro
 export type DailyActivity = Database["public"]["Tables"]["daily_activity"]["Row"];
 export type Achievement = Database["public"]["Tables"]["achievements"]["Row"];
 export type UserAchievement = Database["public"]["Tables"]["user_achievements"]["Row"];
+export type ActivityReviewState = Database["public"]["Tables"]["activity_review_state"]["Row"];
 
 export type AttemptResult = {
   correct: boolean;
@@ -32,4 +33,5 @@ export type LearningData = {
   lessonProgress: LessonProgress[];
   dailyActivity: DailyActivity[];
   userAchievements: UserAchievement[];
+  reviewStates: ActivityReviewState[];
 };
