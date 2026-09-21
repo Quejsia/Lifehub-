@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import type { AttemptResult } from "@/lib/types";
 
@@ -21,9 +20,7 @@ export async function submitSpellingAttempt(
   const answer = submittedAnswer.trim();
   if (!answer) throw new Error("Enter an answer before checking.");
 
-  // Supabase's generated Database type currently exposes this RPC with an
-  // incompatible argument signature under the installed client version.
-  // Keep the RPC itself strongly shaped here while isolating the type bridge.
+  // Keep the database RPC contract isolated from the generated client typing.
   const rpc = supabase.rpc as unknown as (
     functionName: string,
     args: {
@@ -40,13 +37,10 @@ export async function submitSpellingAttempt(
   });
 
   if (error) throw error;
-  revalidatePath("/");
-  revalidatePath("/practice");
   return data as AttemptResult;
 }
 
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  revalidatePath("/");
 }
