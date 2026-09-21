@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, BookOpen, Calculator, Code2, FlaskConical, Lightbulb, PenLine, Target } from "lucide-react";
+import { Award, BookOpen, Calculator, ChevronRight, Code2, FlaskConical, Lightbulb, PenLine, Target } from "lucide-react";
 import { getLearningData } from "@/lib/learning";
 import { SiteHeader } from "@/components/site-header";
 import { SpellingPractice } from "@/components/spelling-practice";
@@ -70,11 +70,32 @@ export async function LifeHubHome() {
             {topics.map((topic) => {
               const Icon = topic.icon;
               const isSpelling = topic.title === "Spelling";
+              const cardClass = `card topic-card ${topic.live ? "live-topic" : "future"}`;
+
+              if (isSpelling) {
+                return (
+                  <Link
+                    href="/practice"
+                    className={cardClass}
+                    key={topic.title}
+                    aria-label="Open Spelling practice"
+                  >
+                    <div className="topic-icon"><Icon size={20} /></div>
+                    <div className="topic-card-heading">
+                      <h3>{topic.title}</h3>
+                      <ChevronRight size={18} aria-hidden="true" />
+                    </div>
+                    <p>{mastery}% mastery</p>
+                    <span className="topic-open">Open practice</span>
+                  </Link>
+                );
+              }
+
               return (
-                <article className={`card topic-card ${topic.live ? "" : "future"}`} key={topic.title}>
+                <article className={cardClass} key={topic.title}>
                   <div className="topic-icon"><Icon size={20} /></div>
                   <h3>{topic.title}</h3>
-                  <p>{isSpelling ? `${mastery}% mastery` : topic.subtitle}</p>
+                  <p>{topic.subtitle}</p>
                 </article>
               );
             })}
