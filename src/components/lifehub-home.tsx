@@ -34,7 +34,7 @@ export async function LifeHubHome() {
   return (
     <div className="app-shell">
       <SiteHeader profile={data.profile} />
-      <main className="page-wrap">
+      <main id="main-content" className="page-wrap">
         <section className="hero" aria-labelledby="page-title">
           <p className="eyebrow">TODAY&apos;S FOCUS</p>
           <h1 id="page-title">A little practice goes a long way.</h1>
@@ -96,10 +96,10 @@ export async function LifeHubHome() {
         </section>
 
         <section className="section" aria-label="Learning metrics">
-          <div className="card" style={{ padding: 24, display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 16 }}>
-            <div><Target size={20} style={{ color: "var(--primary)" }} /><div style={{ marginTop: 10, fontWeight: 800 }}>{data.lessonProgress.length}</div><div style={{ color: "var(--foreground-muted)", fontSize: 13 }}>Lessons with progress</div></div>
-            <div><BookOpen size={20} style={{ color: "var(--primary)" }} /><div style={{ marginTop: 10, fontWeight: 800 }}>{data.courses.length}</div><div style={{ color: "var(--foreground-muted)", fontSize: 13 }}>Published course{data.courses.length === 1 ? "" : "s"}</div></div>
-            <div><Award size={20} style={{ color: "var(--accent)" }} /><div style={{ marginTop: 10, fontWeight: 800 }}>{data.userAchievements.length}</div><div style={{ color: "var(--foreground-muted)", fontSize: 13 }}>Achievements earned</div></div>
+          <div className="card section-metrics">
+            <div><Target size={20} className="metric-icon" /><div className="metric-value">{data.lessonProgress.length}</div><div className="metric-label">Lessons with progress</div></div>
+            <div><BookOpen size={20} className="metric-icon" /><div className="metric-value">{data.courses.length}</div><div className="metric-label">Published course{data.courses.length === 1 ? "" : "s"}</div></div>
+            <div><Award size={20} style={{ color: "var(--accent)" }} /><div className="metric-value">{data.userAchievements.length}</div><div className="metric-label">Achievements earned</div></div>
           </div>
         </section>
       </main>
