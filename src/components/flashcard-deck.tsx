@@ -15,7 +15,23 @@ export function FlashcardDeck({
   reviewStates: ActivityReviewState[];
   signedIn: boolean;
 }) {
-  const cards = useMemo(() => activities.filter((item) => item.type === "flashcard").sort((a, b) => a.sort_order - b.sort_order), [activities]);
+  const cards = useMemo(() => {
+    const reviewByActivity = new Map(reviewStates.map((state) => [state.activity_id, state]));
+    const now = Date.now();
+    return activities
+      .filter((item) => item.type === "flashcard")
+      .sort((a, b) => {
+        const aState = reviewByActivity.get(a.id);
+        const bState = reviewByActivity.get(b.id);
+        const aDue = !aState || new Date(aState.due_at).getTime() <= now;
+        const bDue = !bState || new Date(bState.due_at).getTime() <= now;
+        if (aDue !== bDue) return aDue ? -1 : 1;
+        const aDueAt = aState ? new Date(aState.due_at).getTime() : 0;
+        const bDueAt = bState ? new Date(bState.due_at).getTime() : 0;
+        if (aDueAt !== bDueAt) return aDueAt - bDueAt;
+        return a.sort_order - b.sort_order;
+      });
+  }, [activities, reviewStates]);
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [feedback, setFeedback] = useState<AttemptResult | null>(null);
