@@ -39,6 +39,7 @@ export function FlashcardDeck({
   const card = cards[index % Math.max(cards.length, 1)];
   const state = reviewStates.find((item) => item.activity_id === card?.id);
   const due = !state || new Date(state.due_at).getTime() <= Date.now();
+  const word = card?.prompt.replace(/^Word:\s*/i, "").trim() ?? "";
 
   useEffect(() => {
     setFlipped(false);
@@ -86,8 +87,8 @@ export function FlashcardDeck({
       <div className={"flashcard " + (flipped ? "flipped" : "")} role="button" tabIndex={0} onClick={() => !feedback && setFlipped((value) => !value)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); if (!feedback) setFlipped((value) => !value); } }} aria-label={flipped ? "Flashcard answer" : "Flashcard question"}>
         <div className="flashcard-inner">
           <div className="flashcard-face flashcard-front">
-            <span className="flashcard-label">PROMPT</span>
-            <div className="flashcard-word">{card.prompt}</div>
+            <span className="flashcard-label">WORD</span>
+            <div className="flashcard-word">{word || card.prompt}</div>
             <span className="flashcard-hint">Tap to reveal</span>
           </div>
           <div className="flashcard-face flashcard-back">
