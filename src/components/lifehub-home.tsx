@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Award, BookOpen, Calculator, Code2, FlaskConical, Lightbulb, PenLine } from "lucide-react";
+import { Award, BookOpen, Calculator, Code2, FlaskConical, Lightbulb, PenLine, Target } from "lucide-react";
 import { getLearningData } from "@/lib/learning";
 import { SiteHeader } from "@/components/site-header";
 import { SpellingPractice } from "@/components/spelling-practice";
