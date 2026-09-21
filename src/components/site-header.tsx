@@ -14,6 +14,7 @@ import {
   Layers3,
   Menu,
   PanelLeftClose,
+  Sparkles,
   Sprout,
   Target,
   X,
@@ -26,7 +27,7 @@ const navItems = [
   { href: "/practice", label: "Practice", icon: BookOpen },
   { href: "/learn/vocabulary-basics", label: "Vocabulary", icon: Layers3 },
   { href: "/learn/reading-foundations", label: "Reading", icon: BookOpen },
-  { href: "/learn/flashcard-foundations", label: "Flashcards", icon: Sprout },
+  { href: "/learn/flashcard-foundations", label: "Flashcards", icon: Sparkles },
 ];
 
 const futureItems = [
