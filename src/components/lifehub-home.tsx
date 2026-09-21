@@ -10,9 +10,9 @@ const topics = [
   { title: "Vocabulary", subtitle: "Everyday word challenges", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
   { title: "Reading", subtitle: "Short comprehension checks", href: "/learn/reading-foundations", icon: BookOpen, live: true },
   { title: "Flashcards", subtitle: "Adaptive recall deck", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
-  { title: "Mathematics", subtitle: "Planned learning path", icon: Calculator, live: false },
-  { title: "Science", subtitle: "Planned learning path", icon: FlaskConical, live: false },
-  { title: "Programming", subtitle: "Planned learning path", icon: Code2, live: false },
+  { title: "Mathematics", subtitle: "Planned learning path", href: null, icon: Calculator, live: false },
+  { title: "Science", subtitle: "Planned learning path", href: null, icon: FlaskConical, live: false },
+  { title: "Programming", subtitle: "Planned learning path", href: null, icon: Code2, live: false },
 ];
 
 function pct(value: number, fallback = 0) {
@@ -44,7 +44,7 @@ export async function LifeHubHome() {
 
         <section className="dashboard-grid" aria-label="Learning dashboard">
           <article className="card practice-card">
-            <SpellingPractice activities={data.activities} signedIn={!!data.profile} />
+            <SpellingPractice activities={data.activities} reviewStates={data.reviewStates} signedIn={!!data.profile} />
           </article>
 
           <ProgressPanel
