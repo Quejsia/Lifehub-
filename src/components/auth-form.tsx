@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/browser";
 
+const LIFEHUB_PRODUCTION_URL = "https://lifehub-puce-delta.vercel.app";
+
 export function AuthForm() {
   const router = useRouter();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -30,7 +32,7 @@ export function AuthForm() {
           password,
           options: {
             data: { display_name: displayName.trim() },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${LIFEHUB_PRODUCTION_URL}/auth/callback`,
           },
         });
         if (authError) throw authError;
