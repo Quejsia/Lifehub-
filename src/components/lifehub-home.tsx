@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { Award, BookOpen, Calculator, ChevronRight, Code2, FlaskConical, Lightbulb, PenLine, Target } from "lucide-react";
+import { Award, BookOpen, Calculator, ChevronRight, Code2, FlaskConical, Lightbulb, PenLine, Sparkles, Target } from "lucide-react";
 import { getLearningData } from "@/lib/learning";
 import { SiteHeader } from "@/components/site-header";
 import { SpellingPractice } from "@/components/spelling-practice";
 import { ProgressPanel } from "@/components/progress-panel";
 
 const topics = [
-  { title: "Spelling", subtitle: "Spelling Foundations", icon: PenLine, live: true },
-  { title: "Vocabulary", subtitle: "Planned learning path", icon: Lightbulb, live: false },
-  { title: "Reading", subtitle: "Planned learning path", icon: BookOpen, live: false },
+  { title: "Spelling", subtitle: "Spelling Foundations", href: "/practice", icon: PenLine, live: true },
+  { title: "Vocabulary", subtitle: "Everyday word challenges", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
+  { title: "Reading", subtitle: "Short comprehension checks", href: "/learn/reading-foundations", icon: BookOpen, live: true },
+  { title: "Flashcards", subtitle: "Adaptive recall deck", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
   { title: "Mathematics", subtitle: "Planned learning path", icon: Calculator, live: false },
   { title: "Science", subtitle: "Planned learning path", icon: FlaskConical, live: false },
   { title: "Programming", subtitle: "Planned learning path", icon: Code2, live: false },
@@ -72,21 +73,21 @@ export async function LifeHubHome() {
               const isSpelling = topic.title === "Spelling";
               const cardClass = `card topic-card ${topic.live ? "live-topic" : "future"}`;
 
-              if (isSpelling) {
+              if (topic.href) {
                 return (
                   <Link
-                    href="/practice"
+                    href={topic.href}
                     className={cardClass}
                     key={topic.title}
-                    aria-label="Open Spelling practice"
+                    aria-label={`Open ${topic.title}`}
                   >
                     <div className="topic-icon"><Icon size={20} /></div>
                     <div className="topic-card-heading">
                       <h3>{topic.title}</h3>
                       <ChevronRight size={18} aria-hidden="true" />
                     </div>
-                    <p>{mastery}% mastery</p>
-                    <span className="topic-open">Open practice</span>
+                    <p>{isSpelling ? `${mastery}% mastery` : topic.subtitle}</p>
+                    <span className="topic-open">{isSpelling ? "Open practice" : "Start path"}</span>
                   </Link>
                 );
               }
@@ -98,7 +99,7 @@ export async function LifeHubHome() {
                   <p>{topic.subtitle}</p>
                 </article>
               );
-            })}
+            })}}
           </div>
         </section>
 
