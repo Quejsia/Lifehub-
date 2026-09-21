@@ -10,11 +10,7 @@ type RpcResponse = {
 
 type LearningRpc = (
   functionName: string,
-  args: {
-    p_activity_id: string;
-    p_submitted_answer: string;
-    p_duration_ms?: number;
-  },
+  args: Record<string, unknown>,
 ) => Promise<RpcResponse>;
 
 export async function submitLearningActivity(
@@ -36,8 +32,7 @@ export async function submitLearningActivity(
     throw new Error("Invalid answer duration.");
   }
 
-  // Keep the database RPC contract isolated from generated client typing.
-  // Bind the method to its Supabase client because the SDK RPC method relies on its context.
+  // Bind RPC to the Supabase client and keep its complex overloads behind one server-only boundary.
   const rpc = supabase.rpc.bind(supabase) as unknown as LearningRpc;
 
   const { data, error } = await rpc("submit_activity_attempt", {
