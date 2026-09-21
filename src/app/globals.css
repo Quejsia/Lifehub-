@@ -594,8 +594,8 @@ button { cursor: pointer; }
   .mobile-topbar-meta svg { color: var(--accent); }
 
   .icon-button {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     display: grid;
     place-items: center;
     border: 1px solid var(--border);
