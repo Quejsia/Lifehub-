@@ -380,6 +380,14 @@ button { cursor: pointer; }
 .secondary-btn { background: var(--secondary); color: var(--secondary-foreground); }
 .secondary-btn:hover { background: #dfddff; }
 .practice-actions { display: flex; gap: 10px; margin-top: 14px; }
+.audio-btn {
+  min-width: 132px;
+  box-shadow: 0 4px 12px rgba(79, 70, 230, .08);
+}
+.audio-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 16px rgba(79, 70, 230, .13);
+}
 .feedback {
   margin-top: 18px;
   padding: 15px 16px;
@@ -457,6 +465,24 @@ button { cursor: pointer; }
 }
 .section-heading h2 { margin: 0; font-size: 18px; letter-spacing: -0.02em; }
 .section-heading p { margin: 0; color: var(--foreground-muted); font-size: 13px; }
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--secondary-foreground);
+  font-size: 12px;
+  font-weight: 800;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.nav-link:hover {
+  transform: translateY(-1px);
+  background: var(--secondary);
+  border-color: #c9c5ff;
+}
 .topic-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -483,6 +509,36 @@ button { cursor: pointer; }
 }
 .topic-card h3 { margin: 16px 0 4px; font-size: 16px; }
 .topic-card p { margin: 0; color: var(--foreground-muted); font-size: 13px; }
+.topic-card.live-topic {
+  position: relative;
+  cursor: pointer;
+}
+.topic-card.live-topic:hover {
+  transform: translateY(-3px);
+  border-color: #c9c5ff;
+  box-shadow: var(--shadow-md);
+}
+.topic-card.live-topic:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.topic-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+.topic-card-heading h3 { margin: 0; }
+.topic-card-heading svg { color: var(--primary); }
+.topic-open {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 13px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+}
 .topic-card.future { opacity: .67; }
 
 .section-metrics {
