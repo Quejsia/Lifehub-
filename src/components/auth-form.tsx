@@ -56,7 +56,7 @@ export function AuthForm() {
           <div className="field"><label htmlFor="password">Password</label><input id="password" type="password" autoComplete={mode === "signin" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} required /></div>
           {error && <div className="error-box" role="alert">{error}</div>}
           {message && <div className="feedback info" role="status">{message}</div>}
-          <div className="auth-actions"><button className="primary-btn" type="submit" disabled={busy}>{busy ? "Working…" : mode === "signin" ? "Sign in" : "Create account"}</button></div>
+          <div className="auth-actions"><button className="primary-btn" type="submit" disabled={busy} aria-busy={busy}>{busy ? "Working…" : mode === "signin" ? "Sign in" : "Create account"}</button></div>
         </form>
         <p className="auth-toggle">{mode === "signin" ? "New to LifeHub?" : "Already have an account?"}{" "}<button className="text-button" type="button" onClick={() => setMode(mode === "signin" ? "signup" : "signin")}>{mode === "signin" ? "Create one" : "Sign in"}</button></p>
       </section>
