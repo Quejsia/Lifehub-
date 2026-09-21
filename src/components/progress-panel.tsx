@@ -1,6 +1,6 @@
 "use client";
 
-import { Award, CheckCircle2, Flame, Target, Trophy } from "lucide-react";
+import { Award, CheckCircle2, Flame, Target } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Achievement, AttemptResult } from "@/lib/types";
 
@@ -32,7 +32,6 @@ export function ProgressPanel({
   const [correct, setCorrect] = useState(initialCorrect);
   const [mastery, setMastery] = useState(initialMastery);
   const [earnedIds, setEarnedIds] = useState(() => new Set(earnedAchievementIds));
-  const [toast, setToast] = useState<{ name: string; description: string } | null>(null);
   const [pulse, setPulse] = useState(false);
 
   useEffect(() => {
@@ -57,9 +56,6 @@ export function ProgressPanel({
           result.new_achievements?.forEach((achievement) => next.add(achievement.id));
           return next;
         });
-        const first = result.new_achievements[0];
-        setToast({ name: first.name, description: first.description });
-        window.setTimeout(() => setToast(null), 4200);
       }
     };
 
@@ -103,17 +99,6 @@ export function ProgressPanel({
           );
         })}
       </ul>
-
-      {toast && (
-        <div className="badge-toast" role="status" aria-live="polite">
-          <div className="badge-toast-icon"><Trophy size={19} /></div>
-          <div>
-            <strong>Badge earned</strong>
-            <span>{toast.name}</span>
-            <small>{toast.description}</small>
-          </div>
-        </div>
-      )}
 
       <div className="progress-footer">
         <span><Flame size={15} /> Keep your streak alive.</span>
