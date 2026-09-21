@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Check, Clock3, RotateCcw, Volume2, XCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { submitSpellingAttempt } from "@/actions/learning";
 import type { Activity, AttemptResult } from "@/lib/types";
 
@@ -57,7 +56,7 @@ export function SpellingPractice({
     try {
       const result = await submitSpellingAttempt(activity.id, answer, Date.now() - startedAt);
       setFeedback(result);
-      router.refresh();
+      window.dispatchEvent(new CustomEvent<AttemptResult>("lifehub:attempt", { detail: result }));
     } catch (error) {
       setFeedback({
         correct: false,
