@@ -1,8 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type { Activity, Course, Lesson, LessonProgress, Profile } from "@/lib/types";
-import type { Database } from "@/lib/database.types";
-
-export type ActivityReviewState = Database["public"]["Tables"]["activity_review_state"]["Row"];
+import type { Activity, ActivityReviewState, Course, Lesson, LessonProgress, Profile } from "@/lib/types";
 
 export type Phase2CourseData = {
   course: Course;
