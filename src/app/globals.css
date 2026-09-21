@@ -624,6 +624,8 @@ button { cursor: pointer; }
   }
   .mobile-drawer.open { transform: translateX(0); }
   .mobile-drawer > .sidebar { display: flex; }
+  .mobile-drawer .sidebar-brand-row { display: none; }
+  .mobile-drawer > .sidebar { padding-top: 76px; }
   .mobile-drawer-head {
     position: absolute;
     inset: 0 0 auto 0;
