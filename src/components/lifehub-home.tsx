@@ -99,7 +99,7 @@ export async function LifeHubHome() {
                   <p>{topic.subtitle}</p>
                 </article>
               );
-            })}}
+            })}
           </div>
         </section>
 
