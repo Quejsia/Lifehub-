@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Flame,
   GraduationCap,
+  Layers3,
   Menu,
   PanelLeftClose,
   Sprout,
