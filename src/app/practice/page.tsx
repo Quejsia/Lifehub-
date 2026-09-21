@@ -14,7 +14,7 @@ export default async function PracticePage() {
           <p>Complete a short spelling round and save your progress to LifeHub.</p>
         </section>
         <article className="card practice-card" style={{ maxWidth: 980 }}>
-          <SpellingPractice activities={data.activities} signedIn={!!data.profile} />
+          <SpellingPractice activities={data.activities} reviewStates={data.reviewStates} signedIn={!!data.profile} />
         </article>
       </main>
     </div>
