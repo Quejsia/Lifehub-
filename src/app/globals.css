@@ -443,6 +443,9 @@ button { cursor: pointer; }
   font-size: 14px;
 }
 .achievement-row { display: flex; align-items: center; gap: 8px; }
+.progress-footer { display: grid; gap: 7px; margin-top: 24px; color: var(--foreground-muted); font-size: 12px; font-weight: 650; }
+.progress-footer span { display: inline-flex; align-items: center; gap: 7px; }
+.progress-footer svg { color: var(--primary); }
 
 .section { margin-top: 34px; }
 .section-heading {
