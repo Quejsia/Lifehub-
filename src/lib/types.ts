@@ -18,6 +18,8 @@ export type AttemptResult = {
   streak?: number;
   attempt_count?: number;
   correct_count?: number;
+  review_due_at?: string;
+  review_due_days?: number;
 };
 
 export type LearningData = {
