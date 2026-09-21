@@ -8,7 +8,7 @@ type RpcResponse = {
   error: unknown;
 };
 
-type SubmitSpellingRpc = (
+type LearningRpc = (
   functionName: string,
   args: {
     p_activity_id: string;
@@ -38,7 +38,7 @@ export async function submitLearningActivity(
 
   // Keep the database RPC contract isolated from generated client typing.
   // Bind the method to its Supabase client because the SDK RPC method relies on its context.
-  const rpc = supabase.rpc.bind(supabase) as unknown as SubmitSpellingRpc;
+  const rpc = supabase.rpc.bind(supabase) as unknown as LearningRpc;
 
   const { data, error } = await rpc("submit_activity_attempt", {
     p_activity_id: activityId,
@@ -67,7 +67,8 @@ export async function reviewFlashcard(
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) throw new Error("You must be signed in to review flashcards.");
 
-  const { data, error } = await supabase.rpc("review_flashcard", {
+  const rpc = supabase.rpc.bind(supabase) as unknown as LearningRpc;
+  const { data, error } = await rpc("review_flashcard", {
     p_activity_id: activityId,
     p_knew_it: knewIt,
     p_duration_ms: durationMs,
