@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Check, RotateCcw, Sparkles, Volume2 } from "lucide-react";
 import { reviewFlashcard } from "@/actions/learning";
 import type { Activity, AttemptResult } from "@/lib/types";
-import type { ActivityReviewState } from "@/lib/phase2";
+import type { ActivityReviewState } from "@/lib/types";
 
 export function FlashcardDeck({
   activities,
