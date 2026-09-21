@@ -6,13 +6,13 @@ import { SpellingPractice } from "@/components/spelling-practice";
 import { ProgressPanel } from "@/components/progress-panel";
 
 const topics = [
-  { title: "Spelling", subtitle: "Spelling Foundations", href: "/practice", icon: PenLine, live: true },
-  { title: "Vocabulary", subtitle: "Everyday word challenges", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
-  { title: "Reading", subtitle: "Short comprehension checks", href: "/learn/reading-foundations", icon: BookOpen, live: true },
-  { title: "Flashcards", subtitle: "Adaptive recall deck", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
-  { title: "Mathematics", subtitle: "Planned learning path", href: null, icon: Calculator, live: false },
-  { title: "Science", subtitle: "Planned learning path", href: null, icon: FlaskConical, live: false },
-  { title: "Programming", subtitle: "Planned learning path", href: null, icon: Code2, live: false },
+  { title: "Spelling", subtitle: "Spelling Foundations", courseSlug: "spelling-foundations", href: "/practice", icon: PenLine, live: true },
+  { title: "Vocabulary", subtitle: "Everyday word challenges", courseSlug: "vocabulary-basics", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
+  { title: "Reading", subtitle: "Short comprehension checks", courseSlug: "reading-foundations", href: "/learn/reading-foundations", icon: BookOpen, live: true },
+  { title: "Flashcards", subtitle: "Adaptive recall deck", courseSlug: "flashcard-foundations", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
+  { title: "Mathematics", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Calculator, live: false },
+  { title: "Science", subtitle: "Planned learning path", courseSlug: null, href: null, icon: FlaskConical, live: false },
+  { title: "Programming", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Code2, live: false },
 ];
 
 function pct(value: number, fallback = 0) {
@@ -31,6 +31,15 @@ export async function LifeHubHome() {
   const level = data.profile?.level ?? 1;
   const xp = data.profile?.xp ?? 0;
   const levelProgress = ((xp % 500) / 500) * 100;
+  const masteryByCourse = new Map(
+    data.courses.map((course) => {
+      const lessonIds = data.lessons.filter((lesson) => lesson.course_id === course.id).map((lesson) => lesson.id);
+      const values = data.lessonProgress
+        .filter((item) => lessonIds.includes(item.lesson_id))
+        .map((item) => Number(item.mastery));
+      return [course.slug, values.length ? pct(values.reduce((sum, value) => sum + value, 0) / values.length) : 0];
+    }),
+  );
 
   return (
     <div className="app-shell">
@@ -86,7 +95,7 @@ export async function LifeHubHome() {
                       <h3>{topic.title}</h3>
                       <ChevronRight size={18} aria-hidden="true" />
                     </div>
-                    <p>{isSpelling ? `${mastery}% mastery` : topic.subtitle}</p>
+                    <p>{topic.courseSlug ? `${masteryByCourse.get(topic.courseSlug) ?? 0}% mastery` : topic.subtitle}</p>
                     <span className="topic-open">{isSpelling ? "Open practice" : "Start path"}</span>
                   </Link>
                 );
