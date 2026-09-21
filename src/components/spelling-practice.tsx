@@ -19,7 +19,6 @@ export function SpellingPractice({
   activities: Activity[];
   signedIn: boolean;
 }) {
-  const router = useRouter();
   const spellingActivities = useMemo(
     () =>
       activities
