@@ -141,8 +141,14 @@ export function SpellingPractice({
       </p>
 
       <div className="practice-actions">
-        {activity.type === "listen_spell" && signedIn && (
-          <button className="secondary-btn" type="button" onClick={speak}>
+        {signedIn && (
+          <button
+            className="secondary-btn audio-btn"
+            type="button"
+            onClick={speak}
+            aria-label={"Play the word " + activity.answer}
+            title="Hear the correct word"
+          >
             <Volume2 size={18} aria-hidden="true" /> Play word
           </button>
         )}
