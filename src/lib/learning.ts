@@ -47,6 +47,7 @@ export async function getLearningData(): Promise<LearningData> {
       lessonProgress: [],
       dailyActivity: [],
       userAchievements: [],
+      reviewStates: [],
     };
   }
 
@@ -78,6 +79,10 @@ export async function getLearningData(): Promise<LearningData> {
       .from("user_achievements")
       .select("user_id,achievement_id,earned_at")
       .eq("user_id", userId),
+    supabase
+      .from("activity_review_state")
+      .select("user_id,activity_id,correct_streak,due_at,ease_factor,interval_days,last_reviewed_at,repetitions")
+      .eq("user_id", userId),
   ]);
 
   if (profile.error) throw profile.error;
@@ -85,6 +90,7 @@ export async function getLearningData(): Promise<LearningData> {
   if (lessonProgress.error) throw lessonProgress.error;
   if (dailyActivity.error) throw dailyActivity.error;
   if (userAchievements.error) throw userAchievements.error;
+  if (reviewStates.error) throw reviewStates.error;
 
   return {
     courses: courses.data,
@@ -96,5 +102,6 @@ export async function getLearningData(): Promise<LearningData> {
     lessonProgress: lessonProgress.data,
     dailyActivity: dailyActivity.data,
     userAchievements: userAchievements.data,
+    reviewStates: reviewStates.data ?? [],
   };
 }
