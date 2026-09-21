@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { AttemptResult } from "@/lib/types";
 import {
   Award,
   BookOpen,
@@ -113,10 +114,31 @@ function ProfileBlock({ profile }: { profile: Profile | null }) {
 export function SiteHeader({ profile }: { profile: Profile | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [liveProfile, setLiveProfile] = useState<Profile | null>(profile);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    setLiveProfile(profile);
+  }, [profile]);
+
+  useEffect(() => {
+    const onAttempt = (event: Event) => {
+      const result = (event as CustomEvent<AttemptResult>).detail;
+      if (!result || !liveProfile) return;
+      setLiveProfile(current => current ? {
+        ...current,
+        xp: current.xp + (result.xp_awarded ?? 0),
+        level: Math.max(current.level, Math.floor((current.xp + (result.xp_awarded ?? 0)) / 500) + 1),
+        current_streak: result.streak ?? current.current_streak,
+        updated_at: new Date().toISOString(),
+      } : current);
+    };
+    window.addEventListener("lifehub:attempt", onAttempt);
+    return () => window.removeEventListener("lifehub:attempt", onAttempt);
+  }, [liveProfile]);
 
   useEffect(() => {
     if (!open) return;
@@ -153,7 +175,7 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
             <small>Small practice adds up.</small>
           </div>
         </div>
-        <ProfileBlock profile={profile} />
+        <ProfileBlock profile={liveProfile} />
       </div>
     </aside>
   );
@@ -178,7 +200,7 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
         <Link href="/" className="mobile-brand">LifeHub</Link>
         <div className="mobile-topbar-meta">
           <Flame size={16} />
-          <span>{profile?.current_streak ?? 0}</span>
+          <span>{liveProfile?.current_streak ?? 0}</span>
         </div>
       </header>
 
