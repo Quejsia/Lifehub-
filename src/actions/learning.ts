@@ -8,6 +8,15 @@ type RpcResponse = {
   error: unknown;
 };
 
+type SubmitSpellingRpc = (
+  functionName: string,
+  args: {
+    p_activity_id: string;
+    p_submitted_answer: string;
+    p_duration_ms?: number;
+  },
+) => Promise<RpcResponse>;
+
 export async function submitSpellingAttempt(
   activityId: string,
   submittedAnswer: string,
@@ -19,16 +28,17 @@ export async function submitSpellingAttempt(
 
   const answer = submittedAnswer.trim();
   if (!answer) throw new Error("Enter an answer before checking.");
+  if (answer.length > 500) throw new Error("Answer is too long.");
+  if (
+    durationMs !== undefined &&
+    (!Number.isFinite(durationMs) || durationMs < 0 || durationMs > 900000)
+  ) {
+    throw new Error("Invalid answer duration.");
+  }
 
-  // Keep the database RPC contract isolated from the generated client typing.
-  const rpc = supabase.rpc as unknown as (
-    functionName: string,
-    args: {
-      p_activity_id: string;
-      p_submitted_answer: string;
-      p_duration_ms?: number;
-    },
-  ) => Promise<RpcResponse>;
+  // Keep the database RPC contract isolated from generated client typing.
+  // Bind the method to its Supabase client because the SDK RPC method relies on its context.
+  const rpc = supabase.rpc.bind(supabase) as unknown as SubmitSpellingRpc;
 
   const { data, error } = await rpc("submit_spelling_attempt", {
     p_activity_id: activityId,
