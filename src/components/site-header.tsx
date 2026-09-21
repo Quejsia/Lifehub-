@@ -21,8 +21,11 @@ import { SignOutButton } from "@/components/sign-out-button";
 import type { Profile } from "@/lib/types";
 
 const navItems = [
-  { href: "/", label: "Learn", icon: GraduationCap, ready: true },
-  { href: "/practice", label: "Practice", icon: BookOpen, ready: true },
+  { href: "/", label: "Learn", icon: GraduationCap },
+  { href: "/practice", label: "Practice", icon: BookOpen },
+  { href: "/learn/vocabulary-basics", label: "Vocabulary", icon: Layers3 },
+  { href: "/learn/reading-foundations", label: "Reading", icon: BookOpen },
+  { href: "/learn/flashcard-foundations", label: "Flashcards", icon: Sprout },
 ];
 
 const futureItems = [
