@@ -7,7 +7,7 @@ export default async function PracticePage() {
   return (
     <div className="app-shell">
       <SiteHeader profile={data.profile} />
-      <main className="page-wrap">
+      <main id="main-content" className="page-wrap">
         <section className="hero">
           <p className="eyebrow">PRACTICE</p>
           <h1>Build the habit one word at a time.</h1>
