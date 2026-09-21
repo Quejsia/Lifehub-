@@ -28,7 +28,10 @@ export function AuthForm() {
         const { data, error: authError } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: displayName.trim() } },
+          options: {
+            data: { display_name: displayName.trim() },
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
         });
         if (authError) throw authError;
         if (data.session) {
