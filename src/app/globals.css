@@ -1132,3 +1132,7 @@ button { cursor: pointer; }
   }
   .topic-progress-fill { transition: none; }
 }
+
+@media (max-width: 460px) {
+  .topic-grid { grid-template-columns: 1fr; }
+}
