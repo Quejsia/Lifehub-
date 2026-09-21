@@ -17,6 +17,7 @@ import {
   Sparkles,
   Sprout,
   Target,
+  Trophy,
   X,
 } from "lucide-react";
 import { SignOutButton } from "@/components/sign-out-button";
@@ -145,6 +146,20 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
     return () => window.removeEventListener("lifehub:attempt", onAttempt);
   }, [liveProfile]);
 
+  const [achievementToast, setAchievementToast] = useState<{ name: string; description: string } | null>(null);
+
+  useEffect(() => {
+    const onAttempt = (event: Event) => {
+      const result = (event as CustomEvent<AttemptResult>).detail;
+      const first = result?.new_achievements?.[0];
+      if (!first) return;
+      setAchievementToast({ name: first.name, description: first.description });
+      window.setTimeout(() => setAchievementToast(null), 4200);
+    };
+    window.addEventListener("lifehub:attempt", onAttempt);
+    return () => window.removeEventListener("lifehub:attempt", onAttempt);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -188,6 +203,17 @@ export function SiteHeader({ profile }: { profile: Profile | null }) {
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
+
+      {achievementToast && (
+        <div className="badge-toast global-badge-toast" role="status" aria-live="polite">
+          <div className="badge-toast-icon"><Trophy size={19} /></div>
+          <div>
+            <strong>Badge earned</strong>
+            <span>{achievementToast.name}</span>
+            <small>{achievementToast.description}</small>
+          </div>
+        </div>
+      )}
 
       <div className="desktop-sidebar">{sidebar}</div>
 
