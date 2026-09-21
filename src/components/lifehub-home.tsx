@@ -96,6 +96,11 @@ export async function LifeHubHome() {
                       <ChevronRight size={18} aria-hidden="true" />
                     </div>
                     <p>{topic.courseSlug ? `${masteryByCourse.get(topic.courseSlug) ?? 0}% mastery` : topic.subtitle}</p>
+                    {topic.courseSlug && (
+                      <div className="topic-progress-track" aria-hidden="true">
+                        <div className="topic-progress-fill" style={{ width: `${masteryByCourse.get(topic.courseSlug) ?? 0}%` }} />
+                      </div>
+                    )}
                     <span className="topic-open">{isSpelling ? "Open practice" : "Start path"}</span>
                   </Link>
                 );
