@@ -53,7 +53,7 @@ export async function getLearningData(): Promise<LearningData> {
 
   const userId = userData.user.id;
 
-  const [profile, attempts, lessonProgress, dailyActivity, userAchievements] = await Promise.all([
+  const [profile, attempts, lessonProgress, dailyActivity, userAchievements, reviewStates] = await Promise.all([
     supabase
       .from("profiles")
       .select("id,display_name,avatar_url,xp,level,current_streak,longest_streak,created_at,updated_at")
