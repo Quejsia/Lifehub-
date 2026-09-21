@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Award, BookOpen, Calculator, Code2, FlaskConical, Lightbulb, PenLine, Target } from "lucide-react";
+import { Award, BookOpen, Calculator, Code2, FlaskConical, Lightbulb, PenLine } from "lucide-react";
 import { getLearningData } from "@/lib/learning";
 import { SiteHeader } from "@/components/site-header";
 import { SpellingPractice } from "@/components/spelling-practice";
+import { ProgressPanel } from "@/components/progress-panel";
 
 const topics = [
   { title: "Spelling", subtitle: "Spelling Foundations", icon: PenLine, live: true },
@@ -29,7 +30,6 @@ export async function LifeHubHome() {
   const level = data.profile?.level ?? 1;
   const xp = data.profile?.xp ?? 0;
   const levelProgress = ((xp % 500) / 500) * 100;
-  const earned = new Set(data.userAchievements.map((entry) => entry.achievement_id));
 
   return (
     <div className="app-shell">
@@ -46,30 +46,16 @@ export async function LifeHubHome() {
             <SpellingPractice activities={data.activities} signedIn={!!data.profile} />
           </article>
 
-          <aside className="card progress-card" aria-labelledby="progress-title">
-            <h2 id="progress-title" className="progress-title">YOUR PROGRESS</h2>
-            <div className="stat-grid">
-              <div className="stat"><div className="stat-value">Level {level}</div><div className="stat-label">{xp} total XP</div></div>
-              <div className="stat"><div className="stat-value">{data.profile?.current_streak ?? 0}</div><div className="stat-label">day streak</div></div>
-              <div className="stat"><div className="stat-value">{accuracy}%</div><div className="stat-label">accuracy</div></div>
-              <div className="stat"><div className="stat-value">{data.attempts.length}</div><div className="stat-label">attempts saved</div></div>
-            </div>
-
-            <div className="progress-caption"><span>Level progress</span><span>{Math.round(levelProgress)}%</span></div>
-            <div className="progress-track" aria-label="Level progress"><div className="progress-fill" style={{ width: `${levelProgress}%` }} /></div>
-
-            <div className="progress-caption"><span>Spelling mastery</span><span>{mastery}%</span></div>
-            <div className="progress-track" aria-label="Spelling mastery"><div className="progress-fill" style={{ width: `${mastery}%` }} /></div>
-
-            <ul className="achievement-list" aria-label="Achievements">
-              {data.achievements.map((achievement) => (
-                <li key={achievement.id} className="achievement-row">
-                  <Award size={16} style={{ color: earned.has(achievement.id) ? "var(--accent)" : "var(--border)" }} />
-                  <span style={{ fontWeight: earned.has(achievement.id) ? 700 : 500 }}>{achievement.name}</span>
-                </li>
-              ))}
-            </ul>
-          </aside>
+          <ProgressPanel
+            initialLevel={level}
+            initialXp={xp}
+            initialStreak={data.profile?.current_streak ?? 0}
+            initialAttempts={data.attempts.length}
+            initialCorrect={correct}
+            initialMastery={mastery}
+            achievements={data.achievements}
+            earnedAchievementIds={data.userAchievements.map((entry) => entry.achievement_id)}
+          />
         </section>
 
         <section className="section" aria-labelledby="paths-title">
