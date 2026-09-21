@@ -1,6 +1,6 @@
 "use client";
 
-import { Award, CheckCircle2, Flame, Target } from "lucide-react";
+import { Award, CheckCircle2, Flame, Target, Trophy } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Achievement, AttemptResult } from "@/lib/types";
 
@@ -31,6 +31,9 @@ export function ProgressPanel({
   const [attempts, setAttempts] = useState(initialAttempts);
   const [correct, setCorrect] = useState(initialCorrect);
   const [mastery, setMastery] = useState(initialMastery);
+  const [earnedIds, setEarnedIds] = useState(() => new Set(earnedAchievementIds));
+  const [toast, setToast] = useState<{ name: string; description: string } | null>(null);
+  const [pulse, setPulse] = useState(false);
 
   useEffect(() => {
     const onAttempt = (event: Event) => {
@@ -45,6 +48,18 @@ export function ProgressPanel({
 
       if (result.xp_awarded) {
         setLevel(value => Math.max(value, Math.floor((xp + result.xp_awarded) / 500) + 1));
+        setPulse(true);
+        window.setTimeout(() => setPulse(false), 420);
+      }
+      if (result.new_achievements?.length) {
+        setEarnedIds(current => {
+          const next = new Set(current);
+          result.new_achievements?.forEach((achievement) => next.add(achievement.id));
+          return next;
+        });
+        const first = result.new_achievements[0];
+        setToast({ name: first.name, description: first.description });
+        window.setTimeout(() => setToast(null), 4200);
       }
     };
 
@@ -54,14 +69,14 @@ export function ProgressPanel({
 
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
   const levelProgress = ((xp % 500) / 500) * 100;
-  const earned = useMemo(() => new Set(earnedAchievementIds), [earnedAchievementIds]);
+  const earned = useMemo(() => earnedIds, [earnedIds]);
 
   return (
     <aside className="card progress-card" aria-labelledby="progress-title">
       <h2 id="progress-title" className="progress-title">YOUR PROGRESS</h2>
 
       <div className="stat-grid">
-        <div className="stat"><div className="stat-value">Level {level}</div><div className="stat-label">{xp} total XP</div></div>
+        <div className={"stat stat-xp" + (pulse ? " stat-pulse" : "")}><div className="stat-value">Level {level}</div><div className="stat-label">{xp} total XP</div></div>
         <div className="stat"><div className="stat-value">{streak}</div><div className="stat-label">day streak</div></div>
         <div className="stat"><div className="stat-value">{accuracy}%</div><div className="stat-label">accuracy</div></div>
         <div className="stat"><div className="stat-value">{attempts}</div><div className="stat-label">attempts saved</div></div>
@@ -88,6 +103,17 @@ export function ProgressPanel({
           );
         })}
       </ul>
+
+      {toast && (
+        <div className="badge-toast" role="status" aria-live="polite">
+          <div className="badge-toast-icon"><Trophy size={19} /></div>
+          <div>
+            <strong>Badge earned</strong>
+            <span>{toast.name}</span>
+            <small>{toast.description}</small>
+          </div>
+        </div>
+      )}
 
       <div className="progress-footer">
         <span><Flame size={15} /> Keep your streak alive.</span>
