@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Layers3, Sparkles, Volume2 } from "lucide-react";
+import { ArrowLeft, BookOpen, Layers3, Lightbulb, Sparkles } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ActivityQuiz } from "@/components/activity-quiz";
@@ -54,7 +54,7 @@ export default async function LearningPathPage({ params }: { params: Promise<{ s
         )}
 
         <section className="learning-tip card">
-          <div className="learning-tip-icon"><Volume2 size={18} /></div>
+          <div className="learning-tip-icon"><Lightbulb size={18} /></div>
           <div>
             <strong>Study tip</strong>
             <p>Short, focused sessions are easier to repeat. Finish one round, review anything you missed, then come back later for a fresh recall.</p>
