@@ -47,8 +47,9 @@ export function FlashcardDeck({
 
   function speak() {
     if (!card?.answer || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const word = card.prompt.replace(/^Word:\s*/i, "").trim();
     window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(new SpeechSynthesisUtterance(card.answer));
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(word || card.answer));
   }
 
   async function grade(knewIt: boolean) {
