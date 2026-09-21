@@ -102,7 +102,7 @@ export function FlashcardDeck({
 
       <div className="flashcard-tools">
         <button className="secondary-btn" type="button" onClick={speak} disabled={!signedIn}>
-          <Volume2 size={18} /> Hear answer
+          <Volume2 size={18} /> Hear word
         </button>
         <span className="flashcard-count">{(index % cards.length) + 1} / {cards.length}</span>
       </div>
