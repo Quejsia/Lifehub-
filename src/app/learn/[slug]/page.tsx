@@ -21,6 +21,7 @@ export default async function LearningPathPage({ params }: { params: Promise<{ s
   if (!data) notFound();
 
   const Icon = config.icon;
+  const mastery = Math.max(0, Math.min(100, Math.round(Number(data.progress?.mastery ?? 0))));
 
   return (
     <div className="app-shell">
@@ -34,10 +35,14 @@ export default async function LearningPathPage({ params }: { params: Promise<{ s
 
         <section className="learning-path-banner">
           <div className="learning-path-icon"><Icon size={24} /></div>
-          <div>
+          <div className="learning-path-copy">
             <p className="eyebrow">LEARNING PATH</p>
             <h1>{data.course.title}</h1>
             <p>{data.course.description}</p>
+            <div className="path-mastery" aria-label={"Mastery " + mastery + "%"}>
+              <div className="path-mastery-caption"><span>Mastery</span><strong>{mastery}%</strong></div>
+              <div className="path-mastery-track"><div className="path-mastery-fill" style={{ width: mastery + "%" }} /></div>
+            </div>
           </div>
         </section>
 
