@@ -38,7 +38,8 @@ export function FlashcardDeck({
   const [busy, setBusy] = useState(false);
   const card = cards[index % Math.max(cards.length, 1)];
   const state = reviewStates.find((item) => item.activity_id === card?.id);
-  const due = !state || new Date(state.due_at).getTime() <= Date.now();
+  const due = !!state && new Date(state.due_at).getTime() <= Date.now();
+  const isNew = !state;
   const word = card?.prompt.replace(/^Word:\s*/i, "").trim() ?? "";
 
   useEffect(() => {
@@ -81,7 +82,9 @@ export function FlashcardDeck({
           <h1>Quick recall, spaced over time.</h1>
           <p>Reveal each card, rate your recall, and LifeHub schedules when to review it again.</p>
         </div>
-        <span className={"review-status " + (due ? "due" : "scheduled")}>{due ? "Due now" : "Scheduled"}</span>
+        <span className={"review-status " + (isNew ? "new" : due ? "due" : "scheduled")}>
+          {isNew ? "New card" : due ? "Ready to review" : "Scheduled"}
+        </span>
       </div>
 
       <div className={"flashcard " + (flipped ? "flipped" : "")} role="button" tabIndex={0} onClick={() => !feedback && setFlipped((value) => !value)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); if (!feedback) setFlipped((value) => !value); } }} aria-label={flipped ? "Flashcard answer" : "Flashcard question"}>
@@ -92,7 +95,7 @@ export function FlashcardDeck({
             <span className="flashcard-hint">Tap to reveal</span>
           </div>
           <div className="flashcard-face flashcard-back">
-            <span className="flashcard-label">ANSWER</span>
+            <span className="flashcard-label">DEFINITION</span>
             <div className="flashcard-word">{card.answer}</div>
             {card.definition && <p>{card.definition}</p>}
             {card.explanation && <small>{card.explanation}</small>}
