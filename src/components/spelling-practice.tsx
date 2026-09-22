@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Check, Clock3, RotateCcw, Volume2, XCircle } from "lucide-react";
+import { Check, Clock3, PenLine, RotateCcw, Volume2, XCircle } from "lucide-react";
 import { submitSpellingAttempt } from "@/actions/learning";
 import type { Activity, ActivityReviewState, AttemptResult } from "@/lib/types";
 
@@ -98,8 +98,8 @@ export function SpellingPractice({
   return (
     <div className="practice-content">
       <div className="card-kicker">
-        <span className="kicker-dot" aria-hidden="true" />
-        SPELLING LEARNER
+        <span className="kicker-icon" aria-hidden="true"><PenLine size={17} /></span>
+        <span>SPELLING LEARNER</span>
       </div>
 
       <div className="practice-heading-row">
