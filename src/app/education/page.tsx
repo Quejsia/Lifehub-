@@ -136,7 +136,7 @@ export default async function EducationPage() {
       )
     : 0;
 
-  const livePathCount = data.courses.length;
+  const livePathCount = subjects.filter((subject) => subject.href).length;
 
   return (
     <div className="app-shell">
@@ -251,7 +251,7 @@ export default async function EducationPage() {
                 </p>
               </div>
               <div className="learning-path-icon" aria-hidden="true">
-                <Calculator size={24} />
+                <FlaskConical size={24} />
               </div>
             </div>
 
