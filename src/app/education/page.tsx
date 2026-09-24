@@ -28,8 +28,8 @@ const subjects = [
     description: "Explore biology, chemistry, physics, and Earth and environmental science through focused lessons.",
     next: "Biology → Chemistry → Physics",
     icon: FlaskConical,
-    status: "Next",
-    href: null,
+    status: "Available",
+    href: "/learn/science-foundations",
   },
   {
     id: "programming",
@@ -120,6 +120,22 @@ export default async function EducationPage() {
       )
     : 0;
 
+  const scienceCourse = data.courses.find((course) => course.slug === "science-foundations");
+  const scienceLessonIds = data.lessons
+    .filter((lesson) => lesson.course_id === scienceCourse?.id)
+    .map((lesson) => lesson.id);
+
+  const scienceProgress = data.lessonProgress.filter((item) =>
+    scienceLessonIds.includes(item.lesson_id),
+  );
+
+  const scienceMastery = scienceProgress.length
+    ? clampPercent(
+        scienceProgress.reduce((sum, item) => sum + Number(item.mastery ?? 0), 0) /
+          scienceProgress.length,
+      )
+    : 0;
+
   const livePathCount = data.courses.length;
 
   return (
@@ -152,7 +168,8 @@ export default async function EducationPage() {
               const Icon = subject.icon;
               const isEnglish = subject.id === "english";
               const isMathematics = subject.id === "mathematics";
-              const live = isEnglish || isMathematics;
+              const isScience = subject.id === "science";
+              const live = isEnglish || isMathematics || isScience;
               const cardClass = `card topic-card ${live ? "live-topic" : "future"}`;
 
               const cardContent = (
@@ -168,20 +185,22 @@ export default async function EducationPage() {
 
                   <p>{subject.description}</p>
 
-                  {(isEnglish || isMathematics) && (
+                  {(isEnglish || isMathematics || isScience) && (
                     <>
                       <div className="topic-progress-track" aria-hidden="true">
                         <div
                           className="topic-progress-fill"
                           style={{
-                            width: `${isMathematics ? mathematicsMastery : englishMastery}%`,
+                            width: `${isScience ? scienceMastery : isMathematics ? mathematicsMastery : englishMastery}%`,
                           }}
                         />
                       </div>
                       <p className="topic-card-meta">
-                        {isMathematics
-                          ? `${mathematicsMastery}% mastery · Arithmetic Basics live`
-                          : `${englishMastery}% mastery · Foundations live`}
+                        {isScience
+                          ? `${scienceMastery}% mastery · Biology Basics live`
+                          : isMathematics
+                            ? `${mathematicsMastery}% mastery · Arithmetic Basics live`
+                            : `${englishMastery}% mastery · Foundations live`}
                       </p>
                     </>
                   )}
@@ -193,7 +212,7 @@ export default async function EducationPage() {
                   <span className="topic-open">
                     {isEnglish
                       ? "Continue learning"
-                      : isMathematics
+                      : isMathematics || isScience
                         ? "Start learning"
                         : "Coming soon"}
                   </span>
@@ -223,12 +242,12 @@ export default async function EducationPage() {
             <div className="learning-module-head">
               <div>
                 <p className="eyebrow">WHAT&apos;S NEXT</p>
-                <h2 id="next-title">Mathematics Foundations is live.</h2>
+                <h2 id="next-title">Science Foundations is live.</h2>
                 <p>
-                  Start with Arithmetic Basics, then build into fractions, percentages,
-                  algebra, geometry, and problem solving as the Mathematics path grows.
-                  Your answers use the same attempts, mastery, XP, streak, achievement,
-                  and adaptive-review systems already powering LifeHub.
+                  Start with Biology Basics, then expand into chemistry, physics, and Earth
+                  science as the Science path grows. Your answers use the same attempts,
+                  mastery, XP, streak, achievement, and adaptive-review systems already
+                  powering LifeHub.
                 </p>
               </div>
               <div className="learning-path-icon" aria-hidden="true">
@@ -243,7 +262,7 @@ export default async function EducationPage() {
               <div>
                 <strong>Phase 3 foundation is live</strong>
                 <p>
-                  Mathematics is now the first new subject connected to the existing
+                  Science is now the second new subject connected to the existing
                   Phase 2 learning engine, so you can practice and earn progress without
                   a separate system.
                 </p>
