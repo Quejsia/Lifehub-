@@ -19,7 +19,7 @@ export function ActivityQuiz({
 }: {
   activities: Activity[];
   signedIn: boolean;
-  kind: "vocabulary" | "reading" | "mathematics" | "science";
+  kind: "vocabulary" | "reading" | "mathematics" | "science" | "programming";
   title: string;
   description: string;
 }) {
@@ -31,7 +31,7 @@ export function ActivityQuiz({
   const activity = quizActivities[index % Math.max(quizActivities.length, 1)];
   const options = getOptions(activity?.options);
   const passage = kind === "reading" ? activity?.definition : null;
-  const sectionLabel = kind === "mathematics" ? "MATHEMATICS" : kind === "science" ? "SCIENCE" : kind === "vocabulary" ? "VOCABULARY" : "READING";
+  const sectionLabel = kind === "mathematics" ? "MATHEMATICS" : kind === "science" ? "SCIENCE" : kind === "programming" ? "PROGRAMMING" : kind === "vocabulary" ? "VOCABULARY" : "READING";
 
   async function submit() {
     if (!signedIn || !activity || !selected || busy || feedback) return;
