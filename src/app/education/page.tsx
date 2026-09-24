@@ -19,7 +19,7 @@ const subjects = [
     description: "Build confidence with numbers, fractions, percentages, algebra, geometry, and problem solving.",
     next: "Arithmetic → Fractions → Algebra",
     icon: Calculator,
-    status: "Next",
+    status: "Available",
     href: "/learn/mathematics-foundations",
   },
   {
