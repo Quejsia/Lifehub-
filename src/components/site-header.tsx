@@ -12,6 +12,7 @@ import {
   Flame,
   GraduationCap,
   Layers3,
+  Library,
   Menu,
   PanelLeftClose,
   Sparkles,
@@ -29,6 +30,7 @@ const navItems = [
   { href: "/learn/vocabulary-basics", label: "Vocabulary", icon: Layers3 },
   { href: "/learn/reading-foundations", label: "Reading", icon: BookOpen },
   { href: "/learn/flashcard-foundations", label: "Flashcards", icon: Sparkles },
+  { href: "/education", label: "Education Hub", icon: Library },
 ];
 
 const futureItems = [
