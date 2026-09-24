@@ -104,6 +104,22 @@ export default async function EducationPage() {
       )
     : 0;
 
+  const mathematicsCourse = data.courses.find((course) => course.slug === "mathematics-foundations");
+  const mathematicsLessonIds = data.lessons
+    .filter((lesson) => lesson.course_id === mathematicsCourse?.id)
+    .map((lesson) => lesson.id);
+
+  const mathematicsProgress = data.lessonProgress.filter((item) =>
+    mathematicsLessonIds.includes(item.lesson_id),
+  );
+
+  const mathematicsMastery = mathematicsProgress.length
+    ? clampPercent(
+        mathematicsProgress.reduce((sum, item) => sum + Number(item.mastery ?? 0), 0) /
+          mathematicsProgress.length,
+      )
+    : 0;
+
   const livePathCount = data.courses.length;
 
   return (
@@ -135,6 +151,7 @@ export default async function EducationPage() {
             {subjects.map((subject) => {
               const Icon = subject.icon;
               const isEnglish = subject.id === "english";
+              const isMathematics = subject.id === "mathematics";
 
               return (
                 <Link
@@ -155,26 +172,34 @@ export default async function EducationPage() {
 
                   <p>{subject.description}</p>
 
-                  {isEnglish && (
+                  {(isEnglish || isMathematics) && (
                     <>
                       <div className="topic-progress-track" aria-hidden="true">
                         <div
                           className="topic-progress-fill"
-                          style={{ width: `${englishMastery}%` }}
+                          style={{
+                            width: `${isMathematics ? mathematicsMastery : englishMastery}%`,
+                          }}
                         />
                       </div>
                       <p className="topic-card-meta">
-                        {englishMastery}% mastery · Foundations live
+                        {isMathematics
+                          ? `${mathematicsMastery}% mastery · Arithmetic Basics live`
+                          : `${englishMastery}% mastery · Foundations live`}
                       </p>
                     </>
                   )}
 
-                  {!isEnglish && (
+                  {!isEnglish && !isMathematics && (
                     <p className="topic-card-meta">{subject.status}</p>
                   )}
 
                   <span className="topic-open">
-                    {isEnglish ? "Continue learning" : "Explore roadmap"}
+                    {isEnglish
+                      ? "Continue learning"
+                      : isMathematics
+                        ? "Start learning"
+                        : "Explore roadmap"}
                   </span>
                 </Link>
               );
@@ -187,10 +212,11 @@ export default async function EducationPage() {
             <div className="learning-module-head">
               <div>
                 <p className="eyebrow">WHAT&apos;S NEXT</p>
-                <h2 id="next-title">Mathematics will be the first new subject.</h2>
+                <h2 id="next-title">Mathematics Foundations is live.</h2>
                 <p>
-                  The Phase 3 learning foundation is ready. Next we&apos;ll connect
-                  Mathematics to the same attempts, mastery, XP, streak, achievement,
+                  Start with Arithmetic Basics, then build into fractions, percentages,
+                  algebra, geometry, and problem solving as the Mathematics path grows.
+                  Your answers use the same attempts, mastery, XP, streak, achievement,
                   and adaptive-review systems already powering LifeHub.
                 </p>
               </div>
@@ -206,8 +232,9 @@ export default async function EducationPage() {
               <div>
                 <strong>Phase 3 foundation is live</strong>
                 <p>
-                  This hub centralizes the subjects now and gives the new learning paths
-                  a single home without replacing the existing Phase 2 engine.
+                  Mathematics is now the first new subject connected to the existing
+                  Phase 2 learning engine, so you can practice and earn progress without
+                  a separate system.
                 </p>
               </div>
             </div>
