@@ -19,7 +19,7 @@ export function ActivityQuiz({
 }: {
   activities: Activity[];
   signedIn: boolean;
-  kind: "vocabulary" | "reading";
+  kind: "vocabulary" | "reading" | "mathematics";
   title: string;
   description: string;
 }) {
@@ -31,6 +31,7 @@ export function ActivityQuiz({
   const activity = quizActivities[index % Math.max(quizActivities.length, 1)];
   const options = getOptions(activity?.options);
   const passage = kind === "reading" ? activity?.definition : null;
+  const sectionLabel = kind === "mathematics" ? "MATHEMATICS" : kind === "vocabulary" ? "VOCABULARY" : "READING";
 
   async function submit() {
     if (!signedIn || !activity || !selected || busy || feedback) return;
@@ -62,7 +63,7 @@ export function ActivityQuiz({
     <div className="learning-module">
       <div className="learning-module-head">
         <div>
-          <p className="eyebrow">{kind === "vocabulary" ? "VOCABULARY" : "READING"}</p>
+          <p className="eyebrow">{sectionLabel}</p>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
