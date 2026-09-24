@@ -155,18 +155,23 @@ export default async function EducationPage() {
 
                   <p>{subject.description}</p>
 
-                  <div className="topic-progress-track" aria-hidden="true">
-                    <div
-                      className="topic-progress-fill"
-                      style={{ width: isEnglish ? `${englishMastery}%` : "14%" }}
-                    />
-                  </div>
+                  {isEnglish && (
+                    <>
+                      <div className="topic-progress-track" aria-hidden="true">
+                        <div
+                          className="topic-progress-fill"
+                          style={{ width: `${englishMastery}%` }}
+                        />
+                      </div>
+                      <p className="topic-card-meta">
+                        {englishMastery}% mastery · Foundations live
+                      </p>
+                    </>
+                  )}
 
-                  <p className="topic-card-meta">
-                    {isEnglish
-                      ? `${englishMastery}% mastery · Foundations live`
-                      : subject.status}
-                  </p>
+                  {!isEnglish && (
+                    <p className="topic-card-meta">{subject.status}</p>
+                  )}
 
                   <span className="topic-open">
                     {isEnglish ? "Continue learning" : "Explore roadmap"}
