@@ -29,7 +29,7 @@ const subjects = [
     next: "Biology → Chemistry → Physics",
     icon: FlaskConical,
     status: "Next",
-    href: "/education#science",
+    href: null,
   },
   {
     id: "programming",
@@ -38,7 +38,7 @@ const subjects = [
     next: "HTML → CSS → JavaScript",
     icon: Code2,
     status: "Next",
-    href: "/education#programming",
+    href: null,
   },
   {
     id: "english",
@@ -56,7 +56,7 @@ const subjects = [
     next: "Wika → Pagbasa → Pagsulat",
     icon: Library,
     status: "Coming next",
-    href: "/education#filipino",
+    href: null,
   },
   {
     id: "digital-literacy",
@@ -65,7 +65,7 @@ const subjects = [
     next: "Internet safety → Research → Security",
     icon: Monitor,
     status: "Coming next",
-    href: "/education#digital-literacy",
+    href: null,
   },
   {
     id: "study-skills",
@@ -74,7 +74,7 @@ const subjects = [
     next: "Notes → Focus → Review",
     icon: Brain,
     status: "Coming next",
-    href: "/education#study-skills",
+    href: null,
   },
 ];
 
@@ -152,22 +152,18 @@ export default async function EducationPage() {
               const Icon = subject.icon;
               const isEnglish = subject.id === "english";
               const isMathematics = subject.id === "mathematics";
+              const live = isEnglish || isMathematics;
+              const cardClass = `card topic-card ${live ? "live-topic" : "future"}`;
 
-              return (
-                <Link
-                  href={subject.href}
-                  className="card topic-card live-topic"
-                  key={subject.id}
-                  id={subject.id}
-                  aria-label={`Open ${subject.title}`}
-                >
+              const cardContent = (
+                <>
                   <div className="topic-icon">
                     <Icon size={20} />
                   </div>
 
                   <div className="topic-card-heading">
                     <h3>{subject.title}</h3>
-                    <ChevronRight size={18} aria-hidden="true" />
+                    {live && <ChevronRight size={18} aria-hidden="true" />}
                   </div>
 
                   <p>{subject.description}</p>
@@ -190,7 +186,7 @@ export default async function EducationPage() {
                     </>
                   )}
 
-                  {!isEnglish && !isMathematics && (
+                  {!live && (
                     <p className="topic-card-meta">{subject.status}</p>
                   )}
 
@@ -199,9 +195,24 @@ export default async function EducationPage() {
                       ? "Continue learning"
                       : isMathematics
                         ? "Start learning"
-                        : "Explore roadmap"}
+                        : "Coming soon"}
                   </span>
+                </>
+              );
+
+              return subject.href ? (
+                <Link
+                  href={subject.href}
+                  className={cardClass}
+                  key={subject.id}
+                  aria-label={`Open ${subject.title}`}
+                >
+                  {cardContent}
                 </Link>
+              ) : (
+                <article className={cardClass} key={subject.id}>
+                  {cardContent}
+                </article>
               );
             })}
           </div>
