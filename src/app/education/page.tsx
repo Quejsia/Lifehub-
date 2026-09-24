@@ -37,8 +37,8 @@ const subjects = [
     description: "Grow practical coding skills from web fundamentals to C/C++, C#, and ASP.NET.",
     next: "HTML → CSS → JavaScript",
     icon: Code2,
-    status: "Next",
-    href: null,
+    status: "Available",
+    href: "/learn/programming-foundations",
   },
   {
     id: "english",
@@ -136,6 +136,22 @@ export default async function EducationPage() {
       )
     : 0;
 
+  const programmingCourse = data.courses.find((course) => course.slug === "programming-foundations");
+  const programmingLessonIds = data.lessons
+    .filter((lesson) => lesson.course_id === programmingCourse?.id)
+    .map((lesson) => lesson.id);
+
+  const programmingProgress = data.lessonProgress.filter((item) =>
+    programmingLessonIds.includes(item.lesson_id),
+  );
+
+  const programmingMastery = programmingProgress.length
+    ? clampPercent(
+        programmingProgress.reduce((sum, item) => sum + Number(item.mastery ?? 0), 0) /
+          programmingProgress.length,
+      )
+    : 0;
+
   const livePathCount = subjects.filter((subject) => subject.href).length;
 
   return (
@@ -169,7 +185,8 @@ export default async function EducationPage() {
               const isEnglish = subject.id === "english";
               const isMathematics = subject.id === "mathematics";
               const isScience = subject.id === "science";
-              const live = isEnglish || isMathematics || isScience;
+              const isProgramming = subject.id === "programming";
+              const live = isEnglish || isMathematics || isScience || isProgramming;
               const cardClass = `card topic-card ${live ? "live-topic" : "future"}`;
 
               const cardContent = (
@@ -185,22 +202,24 @@ export default async function EducationPage() {
 
                   <p>{subject.description}</p>
 
-                  {(isEnglish || isMathematics || isScience) && (
+                  {(isEnglish || isMathematics || isScience || isProgramming) && (
                     <>
                       <div className="topic-progress-track" aria-hidden="true">
                         <div
                           className="topic-progress-fill"
                           style={{
-                            width: `${isScience ? scienceMastery : isMathematics ? mathematicsMastery : englishMastery}%`,
+                            width: `${isProgramming ? programmingMastery : isScience ? scienceMastery : isMathematics ? mathematicsMastery : englishMastery}%`,
                           }}
                         />
                       </div>
                       <p className="topic-card-meta">
-                        {isScience
-                          ? `${scienceMastery}% mastery · Biology Basics live`
-                          : isMathematics
-                            ? `${mathematicsMastery}% mastery · Arithmetic Basics live`
-                            : `${englishMastery}% mastery · Foundations live`}
+                        {isProgramming
+                          ? `${programmingMastery}% mastery · Programming Basics live`
+                          : isScience
+                            ? `${scienceMastery}% mastery · Biology Basics live`
+                            : isMathematics
+                              ? `${mathematicsMastery}% mastery · Arithmetic Basics live`
+                              : `${englishMastery}% mastery · Foundations live`}
                       </p>
                     </>
                   )}
@@ -212,7 +231,7 @@ export default async function EducationPage() {
                   <span className="topic-open">
                     {isEnglish
                       ? "Continue learning"
-                      : isMathematics || isScience
+                      : isMathematics || isScience || isProgramming
                         ? "Start learning"
                         : "Coming soon"}
                   </span>
@@ -242,16 +261,16 @@ export default async function EducationPage() {
             <div className="learning-module-head">
               <div>
                 <p className="eyebrow">WHAT&apos;S NEXT</p>
-                <h2 id="next-title">Science Foundations is live.</h2>
+                <h2 id="next-title">Programming Foundations is live.</h2>
                 <p>
-                  Start with Biology Basics, then expand into chemistry, physics, and Earth
-                  science as the Science path grows. Your answers use the same attempts,
-                  mastery, XP, streak, achievement, and adaptive-review systems already
-                  powering LifeHub.
+                  Start with Programming Basics, then build into HTML, CSS, JavaScript,
+                  C++, C#, and ASP.NET as the Programming path grows. Your answers use the
+                  same attempts, mastery, XP, streak, achievement, and adaptive-review
+                  systems already powering LifeHub.
                 </p>
               </div>
               <div className="learning-path-icon" aria-hidden="true">
-                <FlaskConical size={24} />
+                <Code2 size={24} />
               </div>
             </div>
 
@@ -262,7 +281,7 @@ export default async function EducationPage() {
               <div>
                 <strong>Phase 3 foundation is live</strong>
                 <p>
-                  Science is now the second new subject connected to the existing
+                  Programming is now the third new subject connected to the existing
                   Phase 2 learning engine, so you can practice and earn progress without
                   a separate system.
                 </p>
