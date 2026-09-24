@@ -10,7 +10,7 @@ const topics = [
   { title: "Vocabulary", subtitle: "Everyday word challenges", courseSlug: "vocabulary-basics", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
   { title: "Reading", subtitle: "Short comprehension checks", courseSlug: "reading-foundations", href: "/learn/reading-foundations", icon: BookOpen, live: true },
   { title: "Flashcards", subtitle: "Adaptive recall deck", courseSlug: "flashcard-foundations", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
-  { title: "Mathematics", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Calculator, live: false },
+  { title: "Mathematics", subtitle: "Arithmetic and problem solving", courseSlug: "mathematics-foundations", href: "/learn/mathematics-foundations", icon: Calculator, live: true },
   { title: "Science", subtitle: "Planned learning path", courseSlug: null, href: null, icon: FlaskConical, live: false },
   { title: "Programming", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Code2, live: false },
 ];
