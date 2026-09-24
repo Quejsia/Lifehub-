@@ -20,7 +20,7 @@ const subjects = [
     next: "Arithmetic → Fractions → Algebra",
     icon: Calculator,
     status: "Next",
-    href: "/education#mathematics",
+    href: "/learn/mathematics-foundations",
   },
   {
     id: "science",
