@@ -10,9 +10,9 @@ const topics = [
   { title: "Vocabulary", subtitle: "Everyday word challenges", courseSlug: "vocabulary-basics", href: "/learn/vocabulary-basics", icon: Lightbulb, live: true },
   { title: "Reading", subtitle: "Short comprehension checks", courseSlug: "reading-foundations", href: "/learn/reading-foundations", icon: BookOpen, live: true },
   { title: "Flashcards", subtitle: "Adaptive recall deck", courseSlug: "flashcard-foundations", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
-  { title: "Mathematics", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Calculator, live: false },
-  { title: "Science", subtitle: "Planned learning path", courseSlug: null, href: null, icon: FlaskConical, live: false },
-  { title: "Programming", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Code2, live: false },
+  { title: "Mathematics", subtitle: "Education Hub roadmap", courseSlug: null, href: "/education#mathematics", icon: Calculator, live: false },
+  { title: "Science", subtitle: "Education Hub roadmap", courseSlug: null, href: "/education#science", icon: FlaskConical, live: false },
+  { title: "Programming", subtitle: "Education Hub roadmap", courseSlug: null, href: "/education#programming", icon: Code2, live: false },
 ];
 
 function pct(value: number, fallback = 0) {
@@ -74,7 +74,7 @@ export async function LifeHubHome() {
               <p className="eyebrow" style={{ marginBottom: 5 }}>LEARNING PATHS</p>
               <h2 id="paths-title">Choose what to work on next.</h2>
             </div>
-            <Link href="/practice" className="nav-link">Open practice</Link>
+            <Link href="/education" className="nav-link">Education Hub</Link>
           </div>
           <div className="topic-grid">
             {topics.map((topic) => {
@@ -101,7 +101,7 @@ export async function LifeHubHome() {
                         <div className="topic-progress-fill" style={{ width: `${masteryByCourse.get(topic.courseSlug) ?? 0}%` }} />
                       </div>
                     )}
-                    <span className="topic-open">{isSpelling ? "Open practice" : "Start path"}</span>
+                    <span className="topic-open">{isSpelling ? "Open practice" : topic.live ? "Start path" : "Explore roadmap"}</span>
                   </Link>
                 );
               }
