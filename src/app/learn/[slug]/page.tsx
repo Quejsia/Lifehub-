@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Layers3, Lightbulb, Sparkles } from "lucide-react";
+import { ArrowLeft, BookOpen, Calculator, Layers3, Lightbulb, Sparkles } from "lucide-react";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ActivityQuiz } from "@/components/activity-quiz";
@@ -10,6 +10,7 @@ const configs = {
   vocabulary: { slug: "vocabulary-basics", title: "Vocabulary Basics", kind: "vocabulary" as const, icon: Layers3 },
   reading: { slug: "reading-foundations", title: "Reading Foundations", kind: "reading" as const, icon: BookOpen },
   flashcards: { slug: "flashcard-foundations", title: "Flashcard Foundations", kind: "flashcards" as const, icon: Sparkles },
+  mathematics: { slug: "mathematics-foundations", title: "Mathematics Foundations", kind: "mathematics" as const, icon: Calculator },
 };
 
 export default async function LearningPathPage({ params }: { params: Promise<{ slug: string }> }) {
