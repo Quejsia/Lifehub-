@@ -12,7 +12,7 @@ const topics = [
   { title: "Flashcards", subtitle: "Adaptive recall deck", courseSlug: "flashcard-foundations", href: "/learn/flashcard-foundations", icon: Sparkles, live: true },
   { title: "Mathematics", subtitle: "Arithmetic and problem solving", courseSlug: "mathematics-foundations", href: "/learn/mathematics-foundations", icon: Calculator, live: true },
   { title: "Science", subtitle: "Biology and science foundations", courseSlug: "science-foundations", href: "/learn/science-foundations", icon: FlaskConical, live: true },
-  { title: "Programming", subtitle: "Planned learning path", courseSlug: null, href: null, icon: Code2, live: false },
+  { title: "Programming", subtitle: "Web and programming foundations", courseSlug: "programming-foundations", href: "/learn/programming-foundations", icon: Code2, live: true },
 ];
 
 function pct(value: number, fallback = 0) {
